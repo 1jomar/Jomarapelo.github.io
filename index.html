@@ -6,41 +6,49 @@
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
 
   <!-- EDIT: page title and description (shows in browser tab and search results) -->
-  <title>Jomar Apelo | BS Computer Engineering Student</title>
-  <meta name="description" content="Portfolio of Jomar Apelo, a 4th year BS Computer Engineering student building software and embedded systems projects.">
+  <title>[Your Name] | BS Computer Engineering Student</title>
+  <meta name="description" content="Portfolio of [Your Name], a 4th year BS Computer Engineering student building software and embedded systems projects, including RETRIEVO, an AI-assisted lost and found recovery platform.">
   <meta name="theme-color" content="#0E5A45">
 
-  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <!-- Favicon is inlined so the page needs no extra file -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e5a45'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='34' font-weight='700' fill='%23fff'%3EC%3C/text%3E%3C/svg%3E">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
   <style>
 /* =====================================================
-   PORTFOLIO STYLES
+   PORTFOLIO STYLES  (single file, no external CSS or fonts)
+   1. Tokens   2. Base   3. Header   4. Buttons   5. Hero
+   6. Shared parts   7. About   8. Skills   9. Projects
+   10. Timeline   11. Achievements   12. Resume   13. Contact
+   14. Footer   15. Responsive   16. Reduced motion
    Edit the colors and fonts in :root to re-theme the site.
    ===================================================== */
 
+/* ---------- 1. Tokens ---------- */
 :root {
-  --paper: #eef1ec;        /* page background */
-  --surface: #f8f9f6;      /* panels, cards */
-  --ink: #14201b;          /* main text */
-  --muted: #4f5e57;        /* secondary text */
-  --mask: #0e5a45;         /* primary accent (solder-mask green) */
-  --mask-deep: #093d2f;    /* hover state */
-  --trace: #7fd1b0;        /* light green used inside the board art */
-  --gold: #c8a24b;         /* pad gold, used sparingly */
-  --line: #cbd3cc;         /* borders and dividers */
+  --paper: #fcfcfb;        /* page background */
+  --surface: #f3f5f3;      /* alternate sections, panels */
+  --ink: #111a16;          /* main text */
+  --muted: #55625b;        /* secondary text */
+  --accent: #0e5a45;       /* primary accent */
+  --accent-deep: #093d2f;  /* hover state */
+  --line: #d9dfda;         /* borders and dividers */
 
-  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --dark: #0f1a16;         /* featured project band */
+  --dark-ink: #eef3f0;
+  --dark-muted: #a9bab1;
+  --dark-line: rgba(238, 243, 240, .18);
+  --dark-accent: #8fd9b9;
 
-  --radius: 10px;
-  --header-h: 64px;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, "Liberation Mono", monospace;
+
+  --radius: 6px;
+  --header-h: 68px;
   --container: 1120px;
 }
 
-/* ---------- Base ---------- */
+/* ---------- 2. Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
@@ -58,12 +66,13 @@ body {
   line-height: 1.65;
 }
 
-img, svg { display: block; max-width: 100%; height: auto; }
+img { display: block; max-width: 100%; height: auto; }
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
+  font-weight: 600;
   line-height: 1.15;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
   margin: 0;
 }
 
@@ -71,18 +80,26 @@ p { margin: 0 0 1rem; }
 ul, ol, dl, dd { margin: 0; padding: 0; }
 ul, ol { list-style: none; }
 
-a { color: var(--mask); text-underline-offset: 3px; }
-a:hover { color: var(--mask-deep); }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:hover { color: var(--accent-deep); }
 
-:focus-visible {
-  outline: 3px solid var(--mask);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
-.container {
-  width: min(100% - 2.5rem, var(--container));
-  margin-inline: auto;
+.container { width: min(100% - 2.5rem, var(--container)); margin-inline: auto; }
+
+[hidden] { display: none !important; }
+
+/* Text for screen readers only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .skip-link {
@@ -90,20 +107,22 @@ a:hover { color: var(--mask-deep); }
   left: 1rem;
   top: -4rem;
   background: var(--ink);
-  color: var(--surface);
+  color: var(--paper);
   padding: .6rem 1rem;
   border-radius: var(--radius);
   z-index: 100;
 }
-.skip-link:focus { top: 1rem; color: var(--surface); }
+.skip-link:focus { top: 1rem; color: var(--paper); }
 
-/* ---------- Header and navigation ---------- */
+/* ---------- 3. Header and navigation ---------- */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 50;
   height: var(--header-h);
-  background: rgba(238, 241, 236, .94);
+  background: rgba(252, 252, 251, .94);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   border-bottom: 1px solid transparent;
   transition: border-color .2s ease;
 }
@@ -120,193 +139,163 @@ a:hover { color: var(--mask-deep); }
 .brand {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   color: var(--ink);
   text-decoration: none;
 }
-.brand:hover { color: var(--mask); }
+.brand:hover { color: var(--accent); }
 
-.site-nav ul {
-  display: flex;
-  align-items: center;
-  gap: .25rem;
-}
+.site-nav ul { display: flex; align-items: center; gap: .2rem; }
 .site-nav a {
   display: block;
   padding: .5rem .7rem;
-  font-size: .98rem;
-  font-weight: 600;
+  font-size: .96rem;
+  font-weight: 500;
   color: var(--muted);
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 4px;
+  transition: color .18s ease;
 }
 .site-nav a:hover { color: var(--ink); }
 .site-nav a[aria-current="location"] {
-  color: var(--mask);
-  box-shadow: inset 0 -2px 0 var(--gold);
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--accent);
   border-radius: 0;
 }
 .site-nav .nav-cta {
-  margin-left: .5rem;
-  background: var(--mask);
-  color: var(--surface);
-  border-radius: 999px;
+  margin-left: .6rem;
   padding-inline: 1rem;
+  color: var(--paper);
+  background: var(--accent);
+  border-radius: var(--radius);
   box-shadow: none;
 }
-.site-nav .nav-cta:hover { background: var(--mask-deep); color: var(--surface); }
+.site-nav .nav-cta:hover { background: var(--accent-deep); color: var(--paper); }
+.site-nav .nav-cta[aria-current="location"] { color: var(--paper); box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--accent); border-radius: var(--radius); }
 
 .nav-toggle { display: none; }
 
-/* ---------- Buttons ---------- */
+/* ---------- 4. Buttons ---------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: .7rem 1.25rem;
-  min-height: 44px;
+  padding: .7rem 1.3rem;
+  min-height: 46px;
   font: 600 1rem var(--font-body);
   text-decoration: none;
-  border-radius: 999px;
-  border: 2px solid var(--mask);
+  border-radius: var(--radius);
+  border: 1.5px solid var(--accent);
   cursor: pointer;
   transition: background-color .18s ease, color .18s ease, border-color .18s ease;
 }
-.btn-primary { background: var(--mask); color: var(--surface); }
-.btn-primary:hover { background: var(--mask-deep); border-color: var(--mask-deep); color: var(--surface); }
-.btn-ghost { background: transparent; color: var(--mask); }
-.btn-ghost:hover { background: var(--mask); color: var(--surface); }
+.btn-primary { background: var(--accent); color: var(--paper); }
+.btn-primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--paper); }
+.btn-ghost { background: transparent; color: var(--accent); }
+.btn-ghost:hover { background: var(--accent); color: var(--paper); }
+
+/* Buttons on the dark featured band */
+.btn-light { background: var(--dark-ink); border-color: var(--dark-ink); color: var(--dark); }
+.btn-light:hover { background: var(--dark-accent); border-color: var(--dark-accent); color: var(--dark); }
+.btn-outline-light { background: transparent; border-color: var(--dark-muted); color: var(--dark-ink); }
+.btn-outline-light:hover { background: var(--dark-ink); border-color: var(--dark-ink); color: var(--dark); }
 
 .btn-row { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
 
-/* ---------- Hero ---------- */
-.hero { padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 7vw, 5.5rem); }
+/* ---------- 5. Hero ---------- */
+.hero { padding-block: clamp(2.5rem, 7vw, 6rem) clamp(3.5rem, 8vw, 6.5rem); }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
-  gap: clamp(2rem, 5vw, 4rem);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: clamp(2.5rem, 6vw, 5.5rem);
   align-items: center;
 }
 
+.hero-role { margin: 0 0 1rem; font-size: 1.05rem; font-weight: 600; color: var(--accent); }
+
 .hero h1 {
-  font-size: clamp(2.7rem, 6.5vw, 4.75rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.9rem, 6.6vw, 4.9rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.04;
 }
-.hero-role {
-  margin: .9rem 0 1.25rem;
-  font-family: var(--font-display);
-  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
-  font-weight: 500;
-  color: var(--mask);
-}
-.hero-intro { max-width: 54ch; color: var(--muted); font-size: 1.125rem; }
+.hero-intro { max-width: 50ch; margin: 1.5rem 0 0; color: var(--muted); font-size: 1.15rem; }
 
-.hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.75rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
 
+/* Quick facts */
 .hero-facts {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.25rem 2.5rem;
-  margin-top: 2.25rem;
-  padding-top: 1.25rem;
+  gap: 1rem 2.75rem;
+  margin-top: 2.75rem;
+  padding-top: 1.5rem;
   border-top: 1px solid var(--line);
 }
 .hero-facts dt { font-size: .9rem; color: var(--muted); }
 .hero-facts dd { font-weight: 600; }
 
-/* Circuit board illustration */
-.hero-art svg { width: 100%; filter: drop-shadow(0 18px 30px rgba(9, 61, 47, .22)); }
-.board { fill: var(--mask); }
-.board-inset { fill: none; stroke: rgba(127, 209, 176, .35); stroke-width: 1.5; }
-.trace { fill: none; stroke: var(--trace); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
-.pads circle { fill: var(--gold); stroke: #8a6c26; stroke-width: 1.5; }
-.chip { fill: #0c1713; }
-.chip-dot { fill: var(--gold); }
-.chip-label { fill: #f4f7f3; font: 700 28px var(--font-display); }
-.chip-sub { fill: var(--trace); font: 500 12px var(--font-body); letter-spacing: .08em; }
-.silk { fill: rgba(244, 247, 243, .85); font: 600 12px var(--font-body); }
-
-/* One-time entrance: traces draw, then pads appear */
-.trace {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 1.5s ease-out forwards;
-  animation-delay: calc(var(--i) * 110ms + 200ms);
+/* 2x2 photo grid: two columns, the second one sits slightly lower */
+.hero-photos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(.6rem, 1.6vw, 1rem);
 }
-.pads circle { opacity: 0; animation: appear .4s ease-out 1.5s forwards; }
+.photo-col { display: flex; flex-direction: column; gap: clamp(.6rem, 1.6vw, 1rem); }
+.photo-col:nth-child(2) { margin-top: clamp(1.5rem, 4vw, 3rem); }
 
-@keyframes draw { to { stroke-dashoffset: 0; } }
-@keyframes appear { to { opacity: 1; } }
-
-/* ---------- Sections ---------- */
-.section { padding-block: clamp(3.5rem, 8vw, 6rem); }
-.section-alt {
+.hero-photos figure {
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
   background: var(--surface);
-  border-block: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 1px var(--line);
 }
+.hero-photos img { width: 100%; height: 100%; object-fit: cover; }
 
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  font-size: clamp(1.8rem, 3.6vw, 2.5rem);
-  margin-bottom: 1rem;
-}
-/* trace line ending in a gold pad */
-.section-title::after {
-  content: "";
-  flex: 1;
-  height: 10px;
-  background:
-    radial-gradient(circle at 100% 50%, var(--gold) 0 4px, transparent 4.5px) no-repeat,
-    linear-gradient(var(--line), var(--line)) 0 50% / 100% 2px no-repeat;
-}
+/* The single entrance moment: photos fade in one after another */
+.js .hero-photos figure { opacity: 0; animation: photo-in .7s ease-out forwards; animation-delay: calc(var(--n) * 120ms + 100ms); }
+@keyframes photo-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
-.section-intro { max-width: 62ch; color: var(--muted); margin-bottom: 2rem; }
+/* ---------- 6. Shared section parts ---------- */
+.section { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+.section-alt { background: var(--surface); border-block: 1px solid var(--line); }
 
-.minor-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin: 1.75rem 0 .75rem;
-}
+.section-title { font-size: clamp(1.9rem, 3.8vw, 2.7rem); margin-bottom: 1rem; }
+.section-intro { max-width: 60ch; color: var(--muted); margin-bottom: 2.25rem; }
 
-.prose p { max-width: 66ch; }
+.minor-title { font-family: var(--font-body); font-size: 1rem; font-weight: 700; letter-spacing: 0; margin: 1.75rem 0 .75rem; }
+.prose p { max-width: 64ch; }
 
 /* Chips (skills, technologies, interests) */
 .chips { display: flex; flex-wrap: wrap; gap: .5rem; }
 .chips li {
-  padding: .25rem .8rem;
-  font-size: .95rem;
-  font-weight: 600;
-  color: var(--mask-deep);
-  border: 1.5px solid var(--line);
-  border-radius: 999px;
+  padding: .2rem .75rem;
+  font-size: .93rem;
+  font-weight: 500;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 4px;
   background: var(--paper);
 }
-.section-alt .chips li { background: var(--surface); }
-.featured .chips, .project-row .chips { margin-top: 1.25rem; }
+.section-alt .chips li { background: var(--paper); }
 
 /* Bulleted feature list */
 .feature-list { margin: .25rem 0 0; }
-.feature-list li {
-  position: relative;
-  padding-left: 1.25rem;
-  margin-bottom: .35rem;
-}
+.feature-list li { position: relative; padding-left: 1.2rem; margin-bottom: .35rem; }
 .feature-list li::before {
   content: "";
   position: absolute;
   left: 0;
-  top: .62em;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--gold);
+  top: .72em;
+  width: 6px;
+  height: 1.5px;
+  background: var(--accent);
 }
 
-/* ---------- About ---------- */
+/* ---------- 7. About ---------- */
 .about-grid {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
@@ -315,127 +304,131 @@ a:hover { color: var(--mask-deep); }
 }
 .about-photo img {
   width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
   border-radius: var(--radius);
-  border: 1px solid var(--line);
+  box-shadow: 0 0 0 1px var(--line);
   background: var(--surface);
 }
 
-/* ---------- Skills (spec sheet) ---------- */
+/* ---------- 8. Skills ---------- */
 .spec { border-top: 1px solid var(--line); }
 .spec-row {
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
   gap: 1rem 2rem;
-  padding-block: 1.1rem;
+  padding-block: 1.15rem;
   border-bottom: 1px solid var(--line);
 }
-.spec dt { font-family: var(--font-display); font-weight: 700; }
+.spec dt { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
 
-/* ---------- Projects ---------- */
-.featured {
+/* ---------- 9. Projects ---------- */
+.projects { padding-top: clamp(3.5rem, 8vw, 6.5rem); }
+.projects-head { padding-bottom: clamp(1.5rem, 4vw, 2.5rem); }
+.projects-head .section-intro { margin-bottom: 0; }
+
+/* RETRIEVO: flat dark band, the featured project */
+.retrievo {
+  padding-block: clamp(2.75rem, 6vw, 5rem);
+  background: var(--dark);
+  color: var(--dark-ink);
+}
+.retrievo :focus-visible { outline-color: var(--dark-accent); }
+
+.retrievo-grid {
   display: grid;
-  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
-  gap: clamp(1.5rem, 4vw, 3rem);
-  padding: clamp(1.25rem, 3vw, 2rem);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-left: 5px solid var(--mask);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: clamp(1.75rem, 4vw, 4rem);
+  align-items: start;
+}
+.retrievo .tag { margin: 0 0 1rem; font-size: .95rem; font-weight: 600; color: var(--dark-accent); }
+.retrievo h3 { font-size: clamp(1.9rem, 3.8vw, 2.8rem); letter-spacing: -0.02em; margin-bottom: 1.1rem; }
+.retrievo-lede { max-width: 54ch; font-size: 1.15rem; color: var(--dark-ink); }
+.retrievo .minor-title { color: var(--dark-ink); }
+.retrievo .feature-list li { color: var(--dark-muted); }
+.retrievo .feature-list li::before { background: var(--dark-accent); }
+.retrievo .chips { margin-top: 1.5rem; }
+.retrievo .chips li { color: var(--dark-ink); background: transparent; border-color: var(--dark-line); }
+
+.retrievo-media { margin: 0; position: sticky; top: calc(var(--header-h) + 1.5rem); }
+.retrievo-media img {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
+  background: #172620;
   border-radius: var(--radius);
+  box-shadow: 0 0 0 1px var(--dark-line), 0 24px 48px rgba(0, 0, 0, .35);
 }
-.featured-media img { width: 100%; border-radius: 8px; border: 1px solid var(--line); }
-.featured h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: .75rem; }
-.tag {
-  display: inline-block;
-  margin-bottom: .75rem;
-  padding: .15rem .7rem;
-  font-size: .9rem;
-  font-weight: 600;
-  color: var(--surface);
-  background: var(--mask);
-  border-radius: 999px;
-}
+.retrievo-media figcaption { margin-top: .75rem; font-size: .92rem; color: var(--dark-muted); }
 
 /* Pipeline: a real sequence, so it is numbered */
-.pipeline { counter-reset: step; display: grid; gap: .75rem; }
-.pipeline li {
-  counter-increment: step;
-  position: relative;
-  padding-left: 2.75rem;
-  display: grid;
+.flow-wrap { margin-top: clamp(2.25rem, 5vw, 3.5rem); }
+.flow-wrap .minor-title { margin-top: 0; }
+.flow { counter-reset: step; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+.flow li { counter-increment: step; padding-top: 1rem; border-top: 1px solid var(--dark-line); }
+.flow li::before {
+  content: counter(step, decimal-leading-zero);
+  display: block;
+  margin-bottom: .35rem;
+  font: 500 .9rem var(--font-mono);
+  color: var(--dark-accent);
 }
-.pipeline li::before {
-  content: counter(step);
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 1.9rem;
-  height: 1.9rem;
-  display: grid;
-  place-items: center;
-  font: 700 .95rem var(--font-display);
-  color: var(--surface);
-  background: var(--mask);
-  border-radius: 50%;
-}
-.pipeline li:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  left: .93rem;
-  top: 2rem;
-  bottom: -.7rem;
-  width: 2px;
-  background: var(--line);
-}
-.pipeline span { color: var(--muted); font-size: .98rem; }
+.flow strong { display: block; font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; margin-bottom: .2rem; }
+.flow span { color: var(--dark-muted); font-size: .98rem; }
 
-.more-title { margin-top: 3rem; font-size: 1.3rem; }
+/* Other projects */
+.more { padding-block: clamp(2.75rem, 6vw, 4.5rem) clamp(3.5rem, 8vw, 6.5rem); }
+.more-title { margin: 0 0 1.5rem; font-size: 1.5rem; }
 
 .project-list { border-top: 1px solid var(--line); }
 .project-row {
   display: grid;
   grid-template-columns: 300px minmax(0, 1fr);
-  gap: 1.5rem 2rem;
-  padding-block: 1.75rem;
+  gap: 1.5rem 2.25rem;
+  padding-block: 2rem;
   border-bottom: 1px solid var(--line);
 }
-.project-row img { width: 100%; border-radius: 8px; border: 1px solid var(--line); }
-.project-row h3 { font-size: 1.3rem; margin-bottom: .5rem; }
+.project-row img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 1px var(--line);
+}
+.project-title { font-size: 1.35rem; margin-bottom: .5rem; }
+.project-row .chips { margin-top: 1.1rem; }
 .project-row .btn-row { margin-top: 1.1rem; }
 .project-row .btn { padding: .45rem 1rem; min-height: 40px; font-size: .95rem; }
 
-/* ---------- Timeline (Education, Experience) ---------- */
-.timeline { position: relative; margin-left: .5rem; padding-left: 2rem; border-left: 2px solid var(--line); }
-.timeline > li { position: relative; padding-bottom: 2.25rem; }
+/* ---------- 10. Timeline (Education, Experience) ---------- */
+.timeline { margin-left: .4rem; padding-left: 2rem; border-left: 1px solid var(--line); }
+.timeline > li { position: relative; padding-bottom: 2.5rem; }
 .timeline > li:last-child { padding-bottom: 0; }
 .timeline > li::before {
   content: "";
   position: absolute;
-  left: calc(-2rem - 8px);
-  top: .35rem;
-  width: 14px;
-  height: 14px;
+  left: calc(-2rem - 5px);
+  top: .55rem;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background: var(--gold);
-  border: 3px solid var(--paper);
-  box-shadow: 0 0 0 1.5px var(--gold);
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--paper);
 }
-.section-alt .timeline > li::before { border-color: var(--surface); }
-.timeline h3 { font-size: 1.3rem; margin-bottom: .15rem; }
-.when { font-size: .95rem; font-weight: 600; color: var(--mask); margin-bottom: .25rem; }
+.section-alt .timeline > li::before { box-shadow: 0 0 0 4px var(--surface); }
+.timeline h3 { font-size: 1.35rem; margin-bottom: .15rem; }
+.when { font: 500 .88rem var(--font-mono); color: var(--accent); margin-bottom: .3rem; }
 .where { color: var(--muted); margin-bottom: .6rem; }
 
-/* ---------- Achievements ---------- */
-.two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 3rem; }
+/* ---------- 11. Achievements ---------- */
+.two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 3.5rem; }
 .two-col .minor-title { margin-top: 0; }
-.record-list li {
-  display: grid;
-  padding-block: .85rem;
-  border-bottom: 1px solid var(--line);
-}
+.record-list li { display: grid; padding-block: .9rem; border-bottom: 1px solid var(--line); }
 .record-list li:first-child { border-top: 1px solid var(--line); }
 .record-list span { color: var(--muted); font-size: .98rem; }
 
-/* ---------- Resume ---------- */
+/* ---------- 12. Resume ---------- */
 .resume-panel {
   padding: clamp(1.5rem, 3vw, 2.25rem);
   background: var(--surface);
@@ -445,13 +438,8 @@ a:hover { color: var(--mask-deep); }
 .resume-panel p { margin: 0; max-width: 56ch; }
 .resume-panel .btn-row { margin-top: 1.25rem; }
 
-/* ---------- Contact ---------- */
-.contact-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-bottom: .5rem;
-}
+/* ---------- 13. Contact ---------- */
+.contact-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-bottom: .5rem; }
 .contact-list a {
   display: grid;
   gap: .1rem;
@@ -465,16 +453,17 @@ a:hover { color: var(--mask-deep); }
   transition: border-color .18s ease;
   overflow-wrap: anywhere;
 }
-.contact-list a:hover { border-color: var(--mask); }
+.contact-list a:hover { border-color: var(--accent); }
 .contact-list span { font-size: .92rem; color: var(--muted); }
-.contact-list strong { color: var(--mask); }
+.contact-list strong { color: var(--accent); }
+.copy-status { margin: 1rem 0 0; min-height: 1.5em; font-size: .95rem; color: var(--muted); }
 
-/* ---------- Footer ---------- */
+/* ---------- 14. Footer ---------- */
 .site-footer { padding-block: 1.75rem; font-size: .95rem; color: var(--muted); }
 .footer-inner { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: space-between; }
 .footer-inner p { margin: 0; }
 
-/* ---------- Responsive ---------- */
+/* ---------- 15. Responsive ---------- */
 @media (max-width: 1040px) {
   .nav-toggle {
     display: inline-flex;
@@ -484,9 +473,9 @@ a:hover { color: var(--mask-deep); }
     padding: .4rem .9rem;
     font: 600 1rem var(--font-body);
     color: var(--ink);
-    background: var(--surface);
-    border: 1.5px solid var(--line);
-    border-radius: 999px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
     cursor: pointer;
   }
   .nav-toggle-bars,
@@ -510,43 +499,54 @@ a:hover { color: var(--mask-deep); }
     left: 0;
     right: 0;
     display: none;
+    max-height: calc(100vh - var(--header-h));
+    overflow-y: auto;
     padding: .75rem 1.25rem 1.25rem;
-    background: var(--surface);
+    background: var(--paper);
     border-bottom: 1px solid var(--line);
   }
   .js .site-nav.is-open { display: block; }
 
   .site-nav ul { flex-direction: column; align-items: stretch; gap: 0; }
   .site-nav a { padding: .85rem .5rem; border-bottom: 1px solid var(--line); border-radius: 0; }
-  .site-nav a[aria-current="location"] { box-shadow: none; }
-  .site-nav .nav-cta { margin: .75rem 0 0; text-align: center; border-bottom: 0; }
+  .site-nav a[aria-current="location"] { box-shadow: none; color: var(--accent); }
+  .site-nav .nav-cta { margin: .75rem 0 0; text-align: center; border-bottom: 0; border-radius: var(--radius); }
+  .site-nav .nav-cta[aria-current="location"] { box-shadow: none; color: var(--paper); }
   .no-js .header-inner { flex-wrap: wrap; height: auto; padding-block: .75rem; }
   .no-js .site-header { position: static; height: auto; }
   .no-js .nav-toggle { display: none; }
 }
 
+@media (max-width: 960px) {
+  .retrievo-grid { grid-template-columns: 1fr; }
+  .retrievo-media { position: static; order: -1; max-width: 640px; }
+}
+
 @media (max-width: 860px) {
+  /* Hero stacks: text first, then the photo grid */
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-art { max-width: 460px; }
+  .hero-photos { max-width: 520px; }
   .about-grid { grid-template-columns: 1fr; }
   .about-photo { max-width: 220px; }
   .spec-row { grid-template-columns: 1fr; gap: .6rem; }
-  .featured { grid-template-columns: 1fr; border-left-width: 1px; border-top: 5px solid var(--mask); }
   .project-row { grid-template-columns: 1fr; }
   .two-col, .contact-list { grid-template-columns: 1fr; }
+  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 480px) {
   .hero-actions .btn { flex: 1 1 100%; }
+  .hero-facts { flex-direction: column; gap: .75rem; }
   .timeline { padding-left: 1.5rem; }
-  .timeline > li::before { left: calc(-1.5rem - 8px); }
+  .timeline > li::before { left: calc(-1.5rem - 5px); }
+  .retrievo .btn-row .btn { flex: 1 1 100%; }
+  .flow { grid-template-columns: 1fr; }
 }
 
-/* ---------- Reduced motion ---------- */
+/* ---------- 16. Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .trace { animation: none; stroke-dashoffset: 0; }
-  .pads circle { animation: none; opacity: 1; }
+  .js .hero-photos figure { animation: none; opacity: 1; }
   * { transition: none !important; }
 }
   </style>
@@ -557,7 +557,7 @@ a:hover { color: var(--mask-deep); }
   <!-- ============ HEADER / NAVIGATION ============ -->
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="#home" aria-label="Back to top">[Your Name]</a>
+      <a class="brand" href="#home" aria-label="[Your Name], back to top">[Your Name]</a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
         <span class="nav-toggle-label">Menu</span>
@@ -585,9 +585,9 @@ a:hover { color: var(--mask-deep); }
     <section id="home" class="hero" aria-labelledby="hero-title">
       <div class="container hero-grid">
         <div class="hero-copy">
+          <p class="hero-role">4th Year BS Computer Engineering Student</p>
           <!-- EDIT: your full name -->
           <h1 id="hero-title">[Your Name]</h1>
-          <p class="hero-role">4th Year BS Computer Engineering Student</p>
           <p class="hero-intro">
             I build things that sit between hardware and software: microcontroller projects,
             small web apps, and networked systems. I'm looking for an internship or OJT where I can
@@ -596,26 +596,44 @@ a:hover { color: var(--mask-deep); }
 
           <div class="hero-actions">
             <a class="btn btn-primary" href="#projects">View projects</a>
+            <a class="btn btn-ghost" href="assets/resume/resume.pdf" download>Download resume</a>
             <a class="btn btn-ghost" href="#contact">Contact me</a>
           </div>
 
           <!-- EDIT: quick facts -->
           <dl class="hero-facts">
-            <div><dt>School</dt><dd>ICCT COLLEGES</dd></div>
-            <div><dt>Graduating</dt><dd>2027</dd></div>
+            <div><dt>School</dt><dd>[University Name]</dd></div>
+            <div><dt>Graduating</dt><dd>[Month Year]</dd></div>
             <div><dt>Open to</dt><dd>Internships, OJT, junior roles</dd></div>
           </dl>
         </div>
 
+        <!-- 2x2 photo grid.
+             EDIT: replace the four files in assets/images/ with your own photos (portrait 4:5 works best)
+             and rewrite each alt text. If a file is missing, a plain placeholder is shown instead. -->
+        <div class="hero-photos">
+          <div class="photo-col">
+            <figure style="--n:0"><img src="assets/images/hero-1.jpg" data-fallback="photo" alt="Photo 1 of [Your Name]: [describe the photo]" width="400" height="500"></figure>
+            <figure style="--n:2"><img src="assets/images/hero-3.jpg" data-fallback="photo" alt="Photo 3 of [Your Name]: [describe the photo]" width="400" height="500" loading="lazy"></figure>
+          </div>
+          <div class="photo-col">
+            <figure style="--n:1"><img src="assets/images/hero-2.jpg" data-fallback="photo" alt="Photo 2 of [Your Name]: [describe the photo]" width="400" height="500"></figure>
+            <figure style="--n:3"><img src="assets/images/hero-4.jpg" data-fallback="photo" alt="Photo 4 of [Your Name]: [describe the photo]" width="400" height="500" loading="lazy"></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ ABOUT ============ -->
-    <section id="about" class="section" aria-labelledby="about-title">
+    <section id="about" class="section section-alt" aria-labelledby="about-title">
       <div class="container">
         <h2 id="about-title" class="section-title">About me</h2>
 
         <div class="about-grid">
           <div class="about-photo">
-            <!-- EDIT: replace assets/images/profile-placeholder.svg with your photo (square works best) -->
-            <img src="assets/images/profile-placeholder.svg" alt="Portrait of [Your Name]" width="320" height="320">
+            <!-- EDIT: replace assets/images/profile-placeholder.svg with your photo (square works best).
+                 If the file is missing, a built-in placeholder is shown instead. -->
+            <img src="assets/images/profile-placeholder.svg" data-fallback="profile" alt="Portrait of [Your Name]" width="320" height="320">
           </div>
 
           <div class="prose">
@@ -651,7 +669,7 @@ a:hover { color: var(--mask-deep); }
     </section>
 
     <!-- ============ SKILLS ============ -->
-    <section id="skills" class="section section-alt" aria-labelledby="skills-title">
+    <section id="skills" class="section" aria-labelledby="skills-title">
       <div class="container">
         <h2 id="skills-title" class="section-title">Skills</h2>
         <p class="section-intro">What I use most often, grouped by area. Edit, add, or remove items to match what you actually know.</p>
@@ -690,64 +708,75 @@ a:hover { color: var(--mask-deep); }
     </section>
 
     <!-- ============ PROJECTS ============ -->
-    <section id="projects" class="section" aria-labelledby="projects-title">
-      <div class="container">
+    <section id="projects" class="projects section-alt" aria-labelledby="projects-title">
+      <div class="container projects-head">
         <h2 id="projects-title" class="section-title">Projects</h2>
         <p class="section-intro">A featured project first, followed by other school and personal work.</p>
+      </div>
 
-        <!-- FEATURED: RETRIEVO -->
-        <article class="featured">
-          <div class="featured-media">
-            <img src="assets/images/retrievo-preview.svg" alt="RETRIEVO interface showing a lost item report matched to a found item report with a 92 percent match score" width="640" height="440" loading="lazy">
+      <!-- FEATURED: RETRIEVO (full-width dark band) -->
+      <article class="retrievo" aria-labelledby="retrievo-title">
+        <div class="container">
+          <div class="retrievo-grid">
+            <div class="retrievo-body">
+              <p class="tag">Featured project</p>
+              <h3 id="retrievo-title">RETRIEVO: Intelligent Lost &amp; Found Recovery Platform</h3>
+              <p class="retrievo-lede">
+                RETRIEVO is an AI-assisted platform that helps people get lost items back. Instead of
+                scrolling through hundreds of posts, a user reports what they lost, and the system
+                ranks the most likely matches from reports of found items.
+              </p>
+
+              <h4 class="minor-title">Key features</h4>
+              <ul class="feature-list">
+                <li>Matches lost and found reports using natural language processing</li>
+                <li>Similarity scoring so the best candidates appear first</li>
+                <li>Location and time analysis to rule out unlikely matches</li>
+                <li>Separate flows for reporting a lost item and a found item</li>
+                <!-- EDIT: add or remove features to match your actual build -->
+              </ul>
+
+              <ul class="chips" aria-label="Technologies used">
+                <!-- EDIT: list the technologies you really used -->
+                <li>Python</li><li>NLP</li><li>Cosine similarity</li><li>React</li><li>Flask</li><li>MySQL</li>
+              </ul>
+
+              <div class="btn-row">
+                <!-- EDIT: replace these links -->
+                <a class="btn btn-light" href="https://github.com/your-username/retrievo" target="_blank" rel="noopener noreferrer">View on GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+                <a class="btn btn-outline-light" href="#" target="_blank" rel="noopener noreferrer">Live demo<span class="sr-only"> (opens in a new tab)</span></a>
+              </div>
+            </div>
+
+            <figure class="retrievo-media">
+              <!-- EDIT: replace assets/images/retrievo-preview.svg with a real screenshot.
+                   If the file is missing, a built-in illustration is shown instead. -->
+              <img src="assets/images/retrievo-preview.svg" data-fallback="retrievo" alt="RETRIEVO interface showing a lost item report matched to a found item report with a 92 percent match score" width="640" height="440">
+              <figcaption>A lost item report matched to a found item report.</figcaption>
+            </figure>
           </div>
 
-          <div class="featured-body">
-            <p class="tag">Featured project</p>
-            <h3>RETRIEVO: Intelligent Lost &amp; Found Recovery Platform</h3>
-            <p>
-              RETRIEVO is an AI-assisted platform that helps people get lost items back. Instead of
-              scrolling through hundreds of posts, a user reports what they lost, and the system
-              ranks the most likely matches from reports of found items.
-            </p>
-
+          <div class="flow-wrap">
             <h4 class="minor-title">How it finds a match</h4>
-            <ol class="pipeline">
+            <ol class="flow">
               <li><strong>Report</strong><span>Description, photo, place, and time</span></li>
               <li><strong>Language analysis</strong><span>NLP turns text into comparable features</span></li>
               <li><strong>Similarity matching</strong><span>Reports are scored against each other</span></li>
               <li><strong>Location and time</strong><span>Distance and timing adjust the score</span></li>
             </ol>
-
-            <h4 class="minor-title">Key features</h4>
-            <ul class="feature-list">
-              <li>Matches lost and found reports using natural language processing</li>
-              <li>Similarity scoring so the best candidates appear first</li>
-              <li>Location and time analysis to rule out unlikely matches</li>
-              <li>Separate flows for reporting a lost item and a found item</li>
-              <!-- EDIT: add or remove features to match your actual build -->
-            </ul>
-
-            <ul class="chips" aria-label="Technologies used">
-              <!-- EDIT: list the technologies you really used -->
-              <li>Python</li><li>NLP</li><li>Cosine similarity</li><li>React</li><li>Flask</li><li>MySQL</li>
-            </ul>
-
-            <div class="btn-row">
-              <!-- EDIT: replace the # links -->
-              <a class="btn btn-primary" href="https://github.com/your-username/retrievo" target="_blank" rel="noopener noreferrer">View on GitHub</a>
-              <a class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">Live demo</a>
-            </div>
           </div>
-        </article>
+        </div>
+      </article>
 
-        <!-- OTHER PROJECTS: duplicate an <article class="project-row"> block to add more -->
-        <h3 class="minor-title more-title">More projects</h3>
+      <!-- OTHER PROJECTS: duplicate an <article class="project-row"> block to add more -->
+      <div class="container more">
+        <h3 class="more-title">More projects</h3>
 
         <div class="project-list">
           <article class="project-row">
-            <img src="assets/images/project-placeholder.svg" alt="Screenshot placeholder for Project Title 1" width="400" height="250" loading="lazy">
+            <img src="assets/images/project-placeholder.svg" data-fallback="project" alt="Screenshot placeholder for Project Title 1" width="400" height="250" loading="lazy">
             <div>
-              <h3>[Project Title 1]: Embedded / IoT project</h3>
+              <h4 class="project-title">[Project Title 1]: Embedded / IoT project</h4>
               <p>[One or two sentences: what problem it solves and what you built. Example: A sensor node that logs room temperature and humidity and sends readings to a dashboard.]</p>
               <ul class="feature-list">
                 <li>[Key feature 1]</li>
@@ -755,17 +784,17 @@ a:hover { color: var(--mask-deep); }
               </ul>
               <ul class="chips" aria-label="Technologies used"><li>ESP32</li><li>C++</li><li>MQTT</li></ul>
               <div class="btn-row">
-                <a class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
                 <!-- Delete the Live demo button below if there is no demo -->
-                <a class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">Live demo</a>
+                <a class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">Live demo<span class="sr-only"> (opens in a new tab)</span></a>
               </div>
             </div>
           </article>
 
           <article class="project-row">
-            <img src="assets/images/project-placeholder.svg" alt="Screenshot placeholder for Project Title 2" width="400" height="250" loading="lazy">
+            <img src="assets/images/project-placeholder.svg" data-fallback="project" alt="Screenshot placeholder for Project Title 2" width="400" height="250" loading="lazy">
             <div>
-              <h3>[Project Title 2]: Web application</h3>
+              <h4 class="project-title">[Project Title 2]: Web application</h4>
               <p>[One or two sentences about this project. Example: A class scheduling web app with login, a database, and an admin page.]</p>
               <ul class="feature-list">
                 <li>[Key feature 1]</li>
@@ -773,16 +802,16 @@ a:hover { color: var(--mask-deep); }
               </ul>
               <ul class="chips" aria-label="Technologies used"><li>HTML/CSS</li><li>JavaScript</li><li>Node.js</li><li>PostgreSQL</li></ul>
               <div class="btn-row">
-                <a class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">Live demo</a>
+                <a class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+                <a class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">Live demo<span class="sr-only"> (opens in a new tab)</span></a>
               </div>
             </div>
           </article>
 
           <article class="project-row">
-            <img src="assets/images/project-placeholder.svg" alt="Screenshot placeholder for Project Title 3" width="400" height="250" loading="lazy">
+            <img src="assets/images/project-placeholder.svg" data-fallback="project" alt="Screenshot placeholder for Project Title 3" width="400" height="250" loading="lazy">
             <div>
-              <h3>[Project Title 3]: Digital design or networking</h3>
+              <h4 class="project-title">[Project Title 3]: Digital design or networking</h4>
               <p>[One or two sentences about this project. Example: A traffic light controller written in Verilog and tested on an FPGA board.]</p>
               <ul class="feature-list">
                 <li>[Key feature 1]</li>
@@ -790,7 +819,7 @@ a:hover { color: var(--mask-deep); }
               </ul>
               <ul class="chips" aria-label="Technologies used"><li>Verilog</li><li>Quartus</li><li>FPGA</li></ul>
               <div class="btn-row">
-                <a class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
               </div>
             </div>
           </article>
@@ -799,7 +828,7 @@ a:hover { color: var(--mask-deep); }
     </section>
 
     <!-- ============ EDUCATION ============ -->
-    <section id="education" class="section section-alt" aria-labelledby="education-title">
+    <section id="education" class="section" aria-labelledby="education-title">
       <div class="container">
         <h2 id="education-title" class="section-title">Education</h2>
 
@@ -841,7 +870,7 @@ a:hover { color: var(--mask-deep); }
     </section>
 
     <!-- ============ EXPERIENCE / ACTIVITIES ============ -->
-    <section id="experience" class="section" aria-labelledby="experience-title">
+    <section id="experience" class="section section-alt" aria-labelledby="experience-title">
       <div class="container">
         <h2 id="experience-title" class="section-title">Experience and activities</h2>
         <p class="section-intro">Internships, organizations, leadership roles, workshops, and volunteer work. Copy an item to add more.</p>
@@ -881,7 +910,7 @@ a:hover { color: var(--mask-deep); }
     </section>
 
     <!-- ============ ACHIEVEMENTS / CERTIFICATIONS ============ -->
-    <section id="achievements" class="section section-alt" aria-labelledby="achievements-title">
+    <section id="achievements" class="section" aria-labelledby="achievements-title">
       <div class="container">
         <h2 id="achievements-title" class="section-title">Achievements and certifications</h2>
 
@@ -907,7 +936,7 @@ a:hover { color: var(--mask-deep); }
     </section>
 
     <!-- ============ RESUME ============ -->
-    <section id="resume" class="section" aria-labelledby="resume-title">
+    <section id="resume" class="section section-alt" aria-labelledby="resume-title">
       <div class="container">
         <h2 id="resume-title" class="section-title">Resume</h2>
         <div class="resume-panel">
@@ -915,14 +944,14 @@ a:hover { color: var(--mask-deep); }
           <div class="btn-row">
             <!-- EDIT: replace assets/resume/resume.pdf with your own PDF (keep the file name, or update both links) -->
             <a class="btn btn-primary" href="assets/resume/resume.pdf" download>Download resume (PDF)</a>
-            <a class="btn btn-ghost" href="assets/resume/resume.pdf" target="_blank" rel="noopener noreferrer">View in browser</a>
+            <a class="btn btn-ghost" href="assets/resume/resume.pdf" target="_blank" rel="noopener noreferrer">View in browser<span class="sr-only"> (opens in a new tab)</span></a>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section id="contact" class="section section-alt" aria-labelledby="contact-title">
+    <section id="contact" class="section" aria-labelledby="contact-title">
       <div class="container">
         <h2 id="contact-title" class="section-title">Contact</h2>
         <p class="section-intro">The fastest way to reach me is email. I usually reply within a day or two.</p>
@@ -937,7 +966,10 @@ a:hover { color: var(--mask-deep); }
 
         <div class="btn-row">
           <a class="btn btn-primary" href="mailto:your.email@example.com?subject=Hello%20from%20your%20portfolio">Send an email</a>
+          <!-- EDIT: keep data-email the same as your email address above -->
+          <button class="btn btn-ghost" type="button" id="copy-email" data-email="your.email@example.com" hidden>Copy email address</button>
         </div>
+        <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
       </div>
     </section>
   </main>
@@ -948,11 +980,13 @@ a:hover { color: var(--mask-deep); }
       <a href="#home">Back to top</a>
     </div>
   </footer>
+
   <script>
 /* =====================================================
    PORTFOLIO SCRIPT
-   1. Mobile menu   2. Highlight current section
-   3. Header border on scroll   4. Footer year
+   1. Mobile menu             2. Current section + header border
+   3. Footer year             4. Image fallbacks
+   5. Copy email button
    ===================================================== */
 (function () {
   'use strict';
@@ -961,7 +995,7 @@ a:hover { color: var(--mask-deep); }
     var header = document.querySelector('.site-header');
     var toggle = document.querySelector('.nav-toggle');
     var nav = document.getElementById('site-nav');
-    var navLinks = nav ? nav.querySelectorAll('a[href^="#"]') : [];
+    var navLinks = nav ? Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]')) : [];
 
     /* ---------- 1. Mobile menu ---------- */
     function setMenu(open) {
@@ -978,9 +1012,7 @@ a:hover { color: var(--mask-deep); }
       });
 
       navLinks.forEach(function (link) {
-        link.addEventListener('click', function () {
-          setMenu(false);
-        });
+        link.addEventListener('click', function () { setMenu(false); });
       });
 
       document.addEventListener('keydown', function (e) {
@@ -990,11 +1022,16 @@ a:hover { color: var(--mask-deep); }
         }
       });
 
-      var mediaQuery = window.matchMedia('(min-width: 1041px)');
-      var resetMenu = function (e) {
-        if (e.matches) setMenu(false);
-      };
+      // Close when tapping outside the header
+      document.addEventListener('click', function (e) {
+        if (toggle.getAttribute('aria-expanded') === 'true' && header && !header.contains(e.target)) {
+          setMenu(false);
+        }
+      });
 
+      // Reset the menu when the window grows to desktop width
+      var mediaQuery = window.matchMedia('(min-width: 1041px)');
+      var resetMenu = function (e) { if (e.matches) setMenu(false); };
       if (typeof mediaQuery.addEventListener === 'function') {
         mediaQuery.addEventListener('change', resetMenu);
       } else if (typeof mediaQuery.addListener === 'function') {
@@ -1002,45 +1039,118 @@ a:hover { color: var(--mask-deep); }
       }
     }
 
-    /* ---------- 2. Highlight the current section in the nav ---------- */
-    if ('IntersectionObserver' in window && navLinks.length) {
-      var sections = Array.prototype.map.call(navLinks, function (link) {
-        var target = link.getAttribute('href');
-        if (!target || target.charAt(0) !== '#') return null;
-        try {
-          return document.querySelector(target);
-        } catch (error) {
-          return null;
-        }
-      }).filter(Boolean);
+    /* ---------- 2. Scroll behavior: current section + header border ---------- */
+    var sections = navLinks.map(function (link) {
+      var id = link.getAttribute('href').slice(1);
+      return id ? document.getElementById(id) : null;
+    });
+    var ticking = false;
 
-      var spy = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          navLinks.forEach(function (link) {
-            var active = link.getAttribute('href') === '#' + entry.target.id;
-            if (active) link.setAttribute('aria-current', 'location');
-            else link.removeAttribute('aria-current');
-          });
-        });
-      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    function updateOnScroll() {
+      ticking = false;
+      var y = window.scrollY || window.pageYOffset;
 
-      sections.forEach(function (section) {
-        spy.observe(section);
+      if (header) header.classList.toggle('is-scrolled', y > 8);
+
+      // The last section whose top has passed about a third of the way down the screen
+      var line = (header ? header.offsetHeight : 0) + window.innerHeight * 0.3;
+      var atBottom = window.innerHeight + y >= document.documentElement.scrollHeight - 2;
+      var currentIndex = -1;
+
+      sections.forEach(function (section, i) {
+        if (section && section.getBoundingClientRect().top <= line) currentIndex = i;
+      });
+      if (atBottom) currentIndex = sections.length - 1;
+
+      navLinks.forEach(function (link, i) {
+        if (i === currentIndex) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
       });
     }
 
-    /* ---------- 3. Header border once the page is scrolled ---------- */
-    function onScroll() {
-      if (header) header.classList.toggle('is-scrolled', window.scrollY > 8);
+    function requestUpdate() {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(updateOnScroll);
+      }
     }
 
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    updateOnScroll();
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
 
-    /* ---------- 4. Footer year ---------- */
+    /* ---------- 3. Footer year ---------- */
     var year = document.getElementById('year');
     if (year) year.textContent = new Date().getFullYear();
+
+    /* ---------- 4. Built-in image fallbacks ----------
+       The <img> tags keep their original file paths. If a file is missing,
+       a plain inline SVG placeholder is swapped in so the layout still looks finished. */
+    var svgHead = '<svg xmlns="http://www.w3.org/2000/svg" ';
+    var person =
+      '<circle cx="160" cy="125" r="44" fill="#ffffff" fill-opacity=".85"/>' +
+      '<path d="M76 290c0-54 38-86 84-86s84 32 84 86z" fill="#ffffff" fill-opacity=".85"/>';
+
+    var fallbacks = {
+      profile: svgHead + 'viewBox="0 0 320 320"><rect width="320" height="320" fill="#0e5a45"/>' + person + '</svg>',
+
+      photo: svgHead + 'viewBox="0 0 320 400"><rect width="320" height="400" fill="#dfe6e1"/>' +
+        '<g transform="translate(0 40)"><circle cx="160" cy="125" r="44" fill="#fcfcfb"/>' +
+        '<path d="M76 290c0-54 38-86 84-86s84 32 84 86z" fill="#fcfcfb"/></g></svg>',
+
+      retrievo: svgHead + 'viewBox="0 0 640 440" font-family="Segoe UI, Arial, sans-serif">' +
+        '<rect width="640" height="440" fill="#172620"/>' +
+        '<rect width="640" height="44" fill="#0f1a16"/>' +
+        '<circle cx="22" cy="22" r="5" fill="#4f6b5f"/><circle cx="40" cy="22" r="5" fill="#4f6b5f"/><circle cx="58" cy="22" r="5" fill="#4f6b5f"/>' +
+        '<text x="320" y="27" text-anchor="middle" font-size="14" font-weight="700" fill="#eef3f0">RETRIEVO</text>' +
+        '<rect x="36" y="76" width="236" height="206" rx="6" fill="#0f1a16" stroke="#2c4a3e"/>' +
+        '<text x="54" y="104" font-size="14" font-weight="700" fill="#8fd9b9">Lost item report</text>' +
+        '<rect x="54" y="122" width="160" height="10" rx="5" fill="#2c4a3e"/><rect x="54" y="144" width="200" height="10" rx="5" fill="#2c4a3e"/><rect x="54" y="166" width="120" height="10" rx="5" fill="#2c4a3e"/>' +
+        '<rect x="54" y="200" width="90" height="62" rx="4" fill="#1f3a2f"/><text x="160" y="226" font-size="12" fill="#a9bab1">Place</text><text x="160" y="248" font-size="12" fill="#a9bab1">Time</text>' +
+        '<rect x="368" y="76" width="236" height="206" rx="6" fill="#0f1a16" stroke="#2c4a3e"/>' +
+        '<text x="386" y="104" font-size="14" font-weight="700" fill="#8fd9b9">Found item report</text>' +
+        '<rect x="386" y="122" width="170" height="10" rx="5" fill="#2c4a3e"/><rect x="386" y="144" width="190" height="10" rx="5" fill="#2c4a3e"/><rect x="386" y="166" width="130" height="10" rx="5" fill="#2c4a3e"/>' +
+        '<rect x="386" y="200" width="90" height="62" rx="4" fill="#1f3a2f"/><text x="492" y="226" font-size="12" fill="#a9bab1">Place</text><text x="492" y="248" font-size="12" fill="#a9bab1">Time</text>' +
+        '<circle cx="320" cy="179" r="34" fill="#0e5a45"/>' +
+        '<text x="320" y="186" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff">92%</text>' +
+        '<text x="36" y="326" font-size="13" fill="#eef3f0">Description match</text><rect x="190" y="316" width="414" height="10" rx="5" fill="#1f3a2f"/><rect x="190" y="316" width="372" height="10" rx="5" fill="#8fd9b9"/>' +
+        '<text x="36" y="360" font-size="13" fill="#eef3f0">Location</text><rect x="190" y="350" width="414" height="10" rx="5" fill="#1f3a2f"/><rect x="190" y="350" width="340" height="10" rx="5" fill="#8fd9b9"/>' +
+        '<text x="36" y="394" font-size="13" fill="#eef3f0">Time</text><rect x="190" y="384" width="414" height="10" rx="5" fill="#1f3a2f"/><rect x="190" y="384" width="300" height="10" rx="5" fill="#8fd9b9"/></svg>',
+
+      project: svgHead + 'viewBox="0 0 400 250"><rect width="400" height="250" fill="#f3f5f3"/>' +
+        '<rect x="60" y="45" width="280" height="160" rx="6" fill="#fcfcfb" stroke="#d9dfda" stroke-width="2"/>' +
+        '<rect x="60" y="45" width="280" height="26" rx="6" fill="#e6ebe7"/>' +
+        '<rect x="80" y="92" width="130" height="10" rx="5" fill="#d9dfda"/><rect x="80" y="114" width="200" height="10" rx="5" fill="#d9dfda"/><rect x="80" y="136" width="160" height="10" rx="5" fill="#d9dfda"/>' +
+        '<text x="200" y="232" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#55625b">Project screenshot</text></svg>'
+    };
+
+    function applyFallback(img) {
+      var key = img.getAttribute('data-fallback');
+      if (!key || !fallbacks[key] || img.getAttribute('data-fallback-applied')) return;
+      img.setAttribute('data-fallback-applied', 'true');
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(fallbacks[key]);
+    }
+
+    Array.prototype.forEach.call(document.querySelectorAll('img[data-fallback]'), function (img) {
+      img.addEventListener('error', function () { applyFallback(img); });
+      if (img.complete && img.naturalWidth === 0) applyFallback(img);
+    });
+
+    /* ---------- 5. Copy email button (hidden unless clipboard is available) ---------- */
+    var copyBtn = document.getElementById('copy-email');
+    var copyStatus = document.getElementById('copy-status');
+
+    if (copyBtn && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      copyBtn.hidden = false;
+      copyBtn.addEventListener('click', function () {
+        navigator.clipboard.writeText(copyBtn.getAttribute('data-email')).then(function () {
+          if (copyStatus) copyStatus.textContent = 'Email address copied.';
+        }).catch(function () {
+          if (copyStatus) copyStatus.textContent = 'Could not copy. Use the email link above instead.';
+        });
+        window.setTimeout(function () { if (copyStatus) copyStatus.textContent = ''; }, 4000);
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
@@ -1049,7 +1159,6 @@ a:hover { color: var(--mask-deep); }
     initPortfolio();
   }
 })();
-
   </script>
 </body>
 </html>
