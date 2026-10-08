@@ -604,7 +604,21 @@ a:hover { color: var(--accent-deep); }
           </dl>
         </div>
 
-        <!--
+        <!-- 2x2 photo grid.
+             EDIT: replace the four files in assets/images/ with your own photos (portrait 4:5 works best)
+             and rewrite each alt text. If a file is missing, a plain placeholder is shown instead. -->
+        <div class="hero-photos">
+          <div class="photo-col">
+            <figure style="--n:0"><img src="assets/images/hero-1.jpg" data-fallback="photo" alt="Photo 1 of Jomar Apelo: [describe the photo]" width="400" height="500"></figure>
+            <figure style="--n:2"><img src="assets/images/hero-3.jpg" data-fallback="photo" alt="Photo 3 of Jomar Apelo: [describe the photo]" width="400" height="500" loading="lazy"></figure>
+          </div>
+          <div class="photo-col">
+            <figure style="--n:1"><img src="assets/images/hero-2.jpg" data-fallback="photo" alt="Photo 2 of Jomar Apelo: [describe the photo]" width="400" height="500"></figure>
+            <figure style="--n:3"><img src="assets/images/hero-4.jpg" data-fallback="photo" alt="Photo 4 of Jomar Apelo: [describe the photo]" width="400" height="500" loading="lazy"></figure>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ============ ABOUT ============ -->
     <section id="about" class="section section-alt" aria-labelledby="about-title">
